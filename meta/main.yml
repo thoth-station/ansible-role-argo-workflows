@@ -13,25 +13,20 @@ galaxy_info:
   # To view available platforms and versions (or releases), visit:
   # https://galaxy.ansible.com/api/v1/platforms/
   #
-  # platforms:
-  # - name: Fedora
-  #   versions:
-  #   - all
-  #   - 25
-  # - name: SomePlatform
-  #   versions:
-  #   - all
-  #   - 1.0
-  #   - 7
-  #   - 99.99
+  platforms:
+  - name: Fedora
+    versions:
+    - 28
+    - 29
+    - 30
 
   galaxy_tags:
     - argo
-    - argo-workflows
     - cloud
     - containers
     - kubernetes
     - openshift
+    - workflows
 
 dependencies: []
   # List your role dependencies here, one per line. Be sure to remove the '[]' above,
