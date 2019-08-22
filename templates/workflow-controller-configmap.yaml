@@ -6,3 +6,19 @@ metadata:
 data:
   config: |
     namespace: "{{ namespace }}"
+{% if ARTIFACT_REPOSITORY == "s3" %}
+    artifactRepository:
+      s3:
+        bucket: "{{ AWS_S3_BUCKET_NAME }}"
+{% if AWS_S3_BUCKET_PREFIX != "" %}
+        keyPrefix: "{{ AWS_S3_BUCKET_PREFIX }}/{{ AWS_S3_ARTIFACT_PATH }}"  # optional
+{% endif %}
+        endpoint: "{{ AWS_S3_HOST }}"
+        insecure: true                  #omit for S3/GCS. Needed when minio runs without TLS
+        accessKeySecret:                #omit if accessing via AWS IAM
+          name: argo-artifact-repository-secrets
+          key: accessKey
+        secretKeySecret:                #omit if accessing via AWS IAM
+          name: argo-artifact-repository-secrets
+          key: secretKey
+{% endif %}

@@ -1,4 +1,11 @@
 ---
 # defaults file for argo-workflows
 namespace: argo
+
 configmap: workflow-controller-configmap.yaml
+secrets: artifact-repository-secrets.yaml
+
+ARTIFACT_REPOSITORY: ""
+
+AWS_S3_BUCKET_PREFIX: ""
+AWS_S3_ARTIFACT_PATH: ""

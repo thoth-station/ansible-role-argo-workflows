@@ -11,6 +11,16 @@
 - name: "grant the service account required SCC"
   command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
 
+- name: "process artifact repository secrets template"
+  template:
+    src: "{{ secrets }}"
+    dest: "{{ role_path }}/files"
+  when: ARTIFACT_REPOSITORY == "s3"
+
+- name: "apply artifact repository secrets"
+  command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/{{ secrets }}"
+  when: ARTIFACT_REPOSITORY == "s3"
+
 - name: "process workflow controller configmap template"
   template:
     src: "{{ configmap }}"
