@@ -1,0 +1,23 @@
+---
+# tasks file for argo-workflows
+- name: "create a namespace"
+  command: "kubectl create namespace {{ namespace }}"
+  ignore_errors: true  # namespace exists
+
+- name: "create a rolebinding"
+  command: "kubectl -n {{ namespace }} create rolebinding default-admin --clusterrole=admin --serviceaccount={{ namespace }}:default"
+  ignore_errors: true  # rb exists
+
+- name: "grant the service account required SCC"
+  command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
+
+- name: "process workflow controller configmap template"
+  template:
+    src: "{{ configmap }}"
+    dest: "{{ role_path }}/files"
+
+- name: "apply workflow controller configmap"
+  command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/{{ configmap }}"
+
+- name: "install Argo to the namespace"
+  command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/namespace-install.yaml"

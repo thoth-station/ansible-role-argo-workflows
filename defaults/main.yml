@@ -1,0 +1,4 @@
+---
+# defaults file for argo-workflows
+namespace: argo
+configmap: workflow-controller-configmap.yaml
