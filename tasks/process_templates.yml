@@ -26,11 +26,18 @@
     src:  "{{ configmap }}"
     dest: "{{ k8s_base }}"
 
-- name: "check if kustomization files exist"
-  stat:
-    path: "{{ k8s_base }}/kustomization.yaml"
-  register: kustomization_files
-
+- name: "find kustomize resource configs"
+  find:
+    paths: "{{ k8s_base | dirname }}"
+    file_type: file
+    patterns:
+      - 'kustomize.yaml'
+      - 'kustomize.yml'
+      - 'kustomize'
+    recurse: yes
+  register: resource_configs
+    
 - name: "kustomize"
-  command: "kustomize build {{ k8s_base }}"
-  when: kustomization_files.stat.exists == True
+  command: "kustomize build {{ item | dirname }}"
+  when: resource_configs.matched
+  with_items: resource_configs.files

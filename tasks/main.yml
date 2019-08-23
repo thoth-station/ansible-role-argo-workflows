@@ -7,7 +7,7 @@
 - name: "check if namespace exists"
   command: "kubectl get ns {{ namespace }}"
   register: namespace_exists
-  ignore_errors: true
+  ignore_errors: yes
 
 - name: "create a namespace"
   command: "kubectl create namespace {{ namespace }}"
@@ -16,7 +16,7 @@
 # TODO: create a proper rolebinding
 - name: "create a rolebinding"
   command: "kubectl -n {{ namespace }} create rolebinding default-admin --clusterrole=admin --serviceaccount={{ namespace }}:default"
-  ignore_errors: true  # rb exists
+  ignore_errors: yes  # rb exists
 
 # TODO: find a way around this
 - name: "grant the service account required SCC"
