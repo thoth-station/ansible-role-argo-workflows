@@ -1,5 +1,10 @@
 ---
 # tasks file for argo-workflows
+- name: "get Argo"
+  get_url:
+    url: https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml
+    dest: "{{ role_path }}/files/namespace-install.yaml"
+
 - name: "check if namespace exists"
   command: "kubectl get ns {{ namespace }}"
   register: namespace_exists
@@ -9,10 +14,12 @@
   command: "kubectl create namespace {{ namespace }}"
   when: namespace_exists is failed
 
+# TODO: create a proper rolebinding
 - name: "create a rolebinding"
   command: "kubectl -n {{ namespace }} create rolebinding default-admin --clusterrole=admin --serviceaccount={{ namespace }}:default"
   ignore_errors: true  # rb exists
 
+# TODO: find a way around this
 - name: "grant the service account required SCC"
   command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
 
@@ -34,5 +41,5 @@
 - name: "apply workflow controller configmap"
   command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/{{ configmap }}"
 
-- name: "install Argo to the namespace"
+- name: "install Argo"
   command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/namespace-install.yaml"
