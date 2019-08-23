@@ -1,0 +1,36 @@
+---
+# tasks file for template processing
+- set_fact:
+    argo_url: "https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml"
+    k8s_base: "{{ role_path }}/files/base"
+
+- name: "make sure directory for kubernetes templates exists"
+  file:
+    path: "{{ k8s_base}}"
+    state: directory
+    recurse: yes
+
+- name: "get Argo"
+  get_url:
+    url:  "{{ argo_url }}"
+    dest: "{{ k8s_base }}"
+
+- name: "process artifact repository secrets template"
+  template:
+    src:  "{{ secrets }}"
+    dest: "{{ k8s_base }}"
+  when: ARTIFACT_REPOSITORY == "s3"
+
+- name: "process workflow controller configmap template"
+  template:
+    src:  "{{ configmap }}"
+    dest: "{{ k8s_base }}"
+
+- name: "check if kustomization files exist"
+  stat:
+    path: "{{ k8s_base }}/kustomization.yaml"
+  register: kustomization_files
+
+- name: "kustomize"
+  command: "kustomize build {{ k8s_base }}"
+  when: kustomization_files.stat.exists == True

@@ -1,10 +1,9 @@
 ---
-# tasks file for argo-workflows
-- name: "get Argo"
-  get_url:
-    url: https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml
-    dest: "{{ role_path }}/files/namespace-install.yaml"
+- import_tasks: process_templates.yml
+  tags:
+    - templates
 
+# tasks file for argo-workflows
 - name: "check if namespace exists"
   command: "kubectl get ns {{ namespace }}"
   register: namespace_exists
@@ -23,23 +22,5 @@
 - name: "grant the service account required SCC"
   command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
 
-- name: "process artifact repository secrets template"
-  template:
-    src: "{{ secrets }}"
-    dest: "{{ role_path }}/files"
-  when: ARTIFACT_REPOSITORY == "s3"
-
-- name: "apply artifact repository secrets"
-  command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/{{ secrets }}"
-  when: ARTIFACT_REPOSITORY == "s3"
-
-- name: "process workflow controller configmap template"
-  template:
-    src: "{{ configmap }}"
-    dest: "{{ role_path }}/files"
-
-- name: "apply workflow controller configmap"
-  command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/{{ configmap }}"
-
-- name: "install Argo"
-  command: "kubectl -n {{ namespace }} apply -f {{ role_path }}/files/namespace-install.yaml"
+- name: "deploy"
+  command: "kubectl -n {{ namespace }} apply -f {{ k8s_base }}"
