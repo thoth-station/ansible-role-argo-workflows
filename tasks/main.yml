@@ -1,8 +1,13 @@
 ---
 # tasks file for argo-workflows
+- name: "check if namespace exists"
+  command: "kubectl get ns {{ namespace }}"
+  register: namespace_exists
+  ignore_errors: true
+
 - name: "create a namespace"
   command: "kubectl create namespace {{ namespace }}"
-  ignore_errors: true  # namespace exists
+  when: namespace_exists is failed
 
 - name: "create a rolebinding"
   command: "kubectl -n {{ namespace }} create rolebinding default-admin --clusterrole=admin --serviceaccount={{ namespace }}:default"

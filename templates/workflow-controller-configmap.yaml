@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: workflow-controller-configmap
   namespace: "{{ namespace }}"
+  label:
+    component: argo
 data:
   config: |
     namespace: "{{ namespace }}"

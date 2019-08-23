@@ -41,9 +41,10 @@ defaults:
 ```
 
 ```yaml
-vars:
+extra:
   # If s3 artifact repository is selected, a host (endpoint) and credentials are  required
   - AWS_S3_HOST
+  - AWS_S3_BUCKET_NAME
   - AWS_S3_ACCESS_KEY_ID
   - AWS_S3_SECRET_ACCESS_KEY
 ```
