@@ -1,9 +1,14 @@
 ---
+# tasks file for argo-workflows
 - import_tasks: process_templates.yml
   tags:
     - templates
 
-# tasks file for argo-workflows
+- import_tasks: kustomize.yml
+  tags:
+    - kustomize
+    - kustomization
+
 - name: "check if namespace exists"
   command: "kubectl get ns {{ namespace }}"
   register: namespace_exists
@@ -12,11 +17,6 @@
 - name: "create a namespace"
   command: "kubectl create namespace {{ namespace }}"
   when: namespace_exists is failed
-
-# TODO: create a proper rolebinding
-- name: "create a rolebinding"
-  command: "kubectl -n {{ namespace }} create rolebinding default-admin --clusterrole=admin --serviceaccount={{ namespace }}:default"
-  ignore_errors: yes  # rb exists
 
 # TODO: find a way around this
 - name: "grant the service account required SCC"

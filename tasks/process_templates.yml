@@ -1,43 +1,95 @@
 ---
 # tasks file for template processing
-- set_fact:
-    argo_url: "https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml"
-    k8s_base: "{{ role_path }}/files/base"
+- set_fact: argo_url="https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml"
 
-- name: "make sure directory for kubernetes templates exists"
+# root directory for k8s files
+- set_fact: k8s_root="{{ role_path }}/files"
+
+# kubernetes deployment templates and overlays
+- set_fact:
+    k8s_base:  "{{ k8s_root }}/base"
+    k8s_patch: "{{ k8s_root }}/patch"
+    k8s_overlays: "{{ k8s_root }}/overlays"
+
+- name: "make sure directories for kubernetes templates exist"
   file:
-    path: "{{ k8s_base}}"
+    path: "{{ item }}"
     state: directory
     recurse: yes
+  with_items:
+    - "{{ k8s_root }}"
+    - "{{ k8s_base }}"
+    - "{{ k8s_patch }}"
+    - "{{ k8s_overlays }}"
 
-- name: "get Argo"
+- name: "get argo"
   get_url:
     url:  "{{ argo_url }}"
     dest: "{{ k8s_base }}"
 
 - name: "process artifact repository secrets template"
   template:
-    src:  "{{ secrets }}"
+    src: ../templates/secrets.yaml
     dest: "{{ k8s_base }}"
   when: ARTIFACT_REPOSITORY == "s3"
 
-- name: "process workflow controller configmap template"
+- name: "process base templates"
   template:
-    src:  "{{ configmap }}"
+    src:  "{{ item.src }}"
     dest: "{{ k8s_base }}"
+  with_filetree: ../templates/base/
 
-- name: "find kustomize resource configs"
+- name: "find all patche templates"
   find:
-    paths: "{{ k8s_base | dirname }}"
+    paths: ../templates/patch
     file_type: file
     patterns:
-      - 'kustomize.yaml'
-      - 'kustomize.yml'
-      - 'kustomize'
+      - '*.yaml'
+      - '*.yml'
+    excludes:
+      - 'kustomization*'
     recurse: yes
-  register: resource_configs
-    
-- name: "kustomize"
-  command: "kustomize build {{ item | dirname }}"
-  when: resource_configs.matched
-  with_items: resource_configs.files
+  register: patche_templates
+
+- name: "process patche templates"
+  template:
+    src:  "{{ item.path }}"
+    dest: "{{ k8s_patch }}"
+  with_items: "{{ patche_templates.files }}"
+
+- name: "find all patches"
+  find:
+    paths: "{{ k8s_patch }}"
+    file_type: file
+    patterns:
+      - '*.yaml'
+      - '*.yml'
+    recurse: yes
+  register: patches
+
+- name: "find all resources"
+  find:
+    paths: "{{ k8s_base }}"
+    file_type: file
+    patterns:
+      - '*.yaml'
+      - '*.yml'
+    recurse: yes
+  register: resources
+
+- name: "find all kustomization templates"
+  find:
+    paths: ../templates
+    file_type: file
+    patterns:
+      - 'kustomization.yaml'
+      - 'kustomization.yml'
+      - 'kustomization'
+    recurse: yes
+  register: kustomization_templates
+
+- name: "process kustomization templates"
+  template:
+    src:  "{{ item.path }}"
+    dest: "{{ k8s_root }}/{{ item.path | relpath( '../templates' ) }}"
+  with_items: "{{ kustomization_templates.files }}"

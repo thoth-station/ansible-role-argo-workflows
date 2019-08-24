@@ -1,0 +1,15 @@
+kind: Kustomization
+
+commonLabels:
+  app: argo
+  component: argo-workflows
+
+{% if patches.files|length >= 0 %}
+patchesStrategicMerge:
+{% for patch in patches.files %}
+  - {{ patch.path | relpath( k8s_patch ) }}
+{% endfor %}
+{% endif %}
+
+bases:
+  - {{ k8s_base | relpath( k8s_patch ) }}

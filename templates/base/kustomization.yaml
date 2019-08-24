@@ -1,0 +1,10 @@
+kind: Kustomization
+
+commonLabels:
+  app: argo
+  component: argo-workflows
+
+resources:
+{% for resource in resources.files %}
+  - {{ resource.path | relpath( k8s_base ) }}
+{% endfor %}
