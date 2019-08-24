@@ -1,6 +1,7 @@
 ---
 # tasks file to perform kustomize build and apply patches and overlays
-- set_fact: k8s_root="{{ role_path }}/files"
+- name: "setting fact for k8s template directory"
+  set_fact: k8s_root="{{ role_path }}/files"
 
 - name: "kustomize"
   command: "kustomize build {{ k8s_root }}/patch -o {{ k8s_root }}/deploy.yaml"

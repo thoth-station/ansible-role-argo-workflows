@@ -1,6 +1,7 @@
 ---
 # tasks file for argo-workflows
-- set_fact: deployment="{{ role_path }}/files/deploy.yaml"
+- name: "setting fact for path to main deployment"
+  set_fact: deployment="{{ role_path }}/files/deploy.yaml"
 
 - import_tasks: process_templates.yml
   tags:

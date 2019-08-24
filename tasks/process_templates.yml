@@ -1,12 +1,15 @@
 ---
 # tasks file for template processing
-- set_fact: argo_url="https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml"
+- name: "setting fact for argo url"
+  set_fact: argo_url="https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml"
 
 # root directory for k8s files
-- set_fact: k8s_root="{{ role_path }}/files"
+- name: "setting fact for k8s template directory"
+  set_fact: k8s_root="{{ role_path }}/files"
 
 # kubernetes deployment templates and overlays
-- set_fact:
+- name: "setting facts for k8s template subdirectories"
+  set_fact:
     k8s_base:  "{{ k8s_root }}/base"
     k8s_patch: "{{ k8s_root }}/patch"
     k8s_overlays: "{{ k8s_root }}/overlays"
