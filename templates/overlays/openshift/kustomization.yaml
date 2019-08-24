@@ -1,0 +1,13 @@
+kind: Kustomization
+
+commonLabels:
+  app: argo
+  component: argo-workflows
+
+patchesStrategicMerge:
+{% for f in overlays.files %}
+  - {{ f.path | basename }}
+{% endfor %}
+
+bases:
+  - ../{{ k8s_base | relpath( k8s_overlays ) }}

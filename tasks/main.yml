@@ -1,5 +1,7 @@
 ---
 # tasks file for argo-workflows
+- set_fact: deployment="{{ role_path }}/files/deploy.yaml"
+
 - import_tasks: process_templates.yml
   tags:
     - templates
@@ -19,8 +21,8 @@
   when: namespace_exists is failed
 
 # TODO: find a way around this
-- name: "grant the service account required SCC"
-  command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
+# - name: "grant the service account required SCC"
+#   command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
 
 - name: "deploy"
-  command: "kubectl -n {{ namespace }} apply -f {{ k8s_base }}"
+  command: "kubectl -n {{ namespace }} apply -f {{ deployment }}"

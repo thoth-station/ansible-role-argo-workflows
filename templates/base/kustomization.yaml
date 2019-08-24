@@ -6,5 +6,5 @@ commonLabels:
 
 resources:
 {% for resource in resources.files %}
-  - {{ resource.path | relpath( k8s_base ) }}
+  - {{ resource.path | basename }}
 {% endfor %}

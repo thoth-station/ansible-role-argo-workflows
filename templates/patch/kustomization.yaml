@@ -7,7 +7,7 @@ commonLabels:
 {% if patches.files|length >= 0 %}
 patchesStrategicMerge:
 {% for patch in patches.files %}
-  - {{ patch.path | relpath( k8s_patch ) }}
+  - {{ patch.path | basename }}
 {% endfor %}
 {% endif %}
 
