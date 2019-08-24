@@ -2,18 +2,10 @@
 # tasks file to perform kustomize build and apply patches and overlays
 - set_fact: k8s_root="{{ role_path }}/files"
 
-- name: "find all kustomization resource configs"
-  find:
-    paths: "{{ k8s_root }}"
-    file_type: file
-    patterns:
-      - 'kustomization.yaml'
-      - 'kustomization.yml'
-      - 'kustomization'
-    recurse: yes
-  register: kustomization
-    
 - name: "kustomize"
-  command: "kustomize build {{ item.path | dirname }}"
-  when: kustomization.matched != 0
-  with_items: "{{ kustomization.files }}"
+  command: "kustomize build {{ k8s_root }}/patch -o {{ k8s_root }}/deploy.yaml"
+  when: overlay == ""
+
+- name: "kustomize with overlay: {{ overlay }}"
+  command: "kustomize build {{ k8s_root }}/overlays/{{ overlay }} -o {{ k8s_root }}/deploy.yaml"
+  when: overlay != ""
