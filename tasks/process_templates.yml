@@ -30,7 +30,7 @@
 
 - name: "process artifact repository secrets template"
   template:
-    src: ../templates/secrets.yaml
+    src: ../templates/secrets/secrets.yaml
     dest: "{{ k8s_base }}"
   when: ARTIFACT_REPOSITORY == "s3"
 
