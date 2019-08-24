@@ -1,0 +1,3 @@
+# contains jinja syntax
+ignore: |
+  templates/patch/configmap.yaml

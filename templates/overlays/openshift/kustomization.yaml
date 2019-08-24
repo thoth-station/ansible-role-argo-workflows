@@ -4,11 +4,6 @@ commonLabels:
   app: argo
   component: argo-workflows
 
-patchesStrategicMerge:
-{% for f in overlays.files %}
-  - {{ f.path | basename }}
-{% endfor %}
-
 resources:
   - route.yaml
 
