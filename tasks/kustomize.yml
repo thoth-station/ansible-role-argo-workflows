@@ -2,9 +2,6 @@
 # tasks file to perform kustomize build and apply patches and overlays
 - set_fact: k8s_root="{{ role_path }}/files"
 
-- name: "debug"
-  debug:
-    var: ansible_facts.k8s_base
 - name: "find all kustomization resource configs"
   find:
     paths: "{{ k8s_root }}"
