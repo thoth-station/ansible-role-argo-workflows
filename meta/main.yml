@@ -1,7 +1,9 @@
 galaxy_info:
-  author: Marek Cermak
+  role_name: argo-workflows
   description: Argo Workflows
-  company: Red Hat
+
+  author: Marek Cermak
+  company: Red Hat Inc.
 
   license: MIT
 

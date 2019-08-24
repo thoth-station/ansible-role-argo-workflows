@@ -1,9 +1,9 @@
-Argo Workflows
-=========
+Ansible Role: Argo Workflows
+=============================
 
-This is an Ansible role to set up [Argo Workflows](https://argoproj.github.io/argo/) in an OpenShift namespace.
+This is an Ansible role to set up [Argo Workflows](https://argoproj.github.io/argo/) in a single  namespace.
 
-**NOTE**: The role is currently in development phase and assumes local cluster OpenShift compatible environment (i.e., [minishift](https://www.okd.io/minishift/)). With a slight configuration, it should also be possible to run it on a Kubernetes cluster.
+**NOTE**: The role is currently in development phase and has been tested on local OpenShift-compatible cluster (i.e., [minishift](https://www.okd.io/minishift/)).
 
 Tested on minishift, [OpenShift 3.11](https://docs.openshift.com/container-platform/3.11/welcome/index.html). 
 
@@ -77,6 +77,26 @@ Example Playbook
       - argo
       - argo-workflows
     namespace: argo
+```
+
+The role provides an option to add custom overlays via [Kustomize](https://kustomize.io/), currently there is an existing overlay for OpenShift environment. Use as such:
+
+```yaml
+---
+- name: "A basic Play to provision Argo into a single namespace."
+
+  hosts: localhost
+  connection: local
+
+  roles:
+  - role: cermakm.argo-workflows
+    tags:
+      - argo
+      - argo-workflows
+    namespace: argo
+    # patch the base installation to run in an OpenShift namespace
+    # this also adds a Route for the argo-ui
+    overlay: openshift
 ```
 
 <br>
