@@ -24,11 +24,12 @@ defaults:
   # Namespace into which Argo should be provisioned
   namespace: argo
 
-  # Configmap for Argo workflow controller, should contain the namespace
-  # and additional configuration, like artifact repository configuration
-  configmap: workflow-controller-configmap.yaml
-  # Secrets to access the artifact repository
-  secrets: artifact-repository-secrets.yaml
+  # Custom overlay to be applied via kustomize to the base argo installation.
+  # Overlays must be present in the [/templates/overlays/](/templates/overlays/) folder and must contain a valid `kustomization.yaml`
+  #
+  # options:
+  # - "openshift"
+  overlay: ""
 
   # Kind of artifact repository to be configured (if not empty)
   # options:
