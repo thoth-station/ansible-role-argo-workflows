@@ -4,12 +4,14 @@ commonLabels:
   app: argo
   component: argo-workflows
 
-{% if patches.files|length >= 0 %}
+patches:
+- target:
+    name: argo-role
+    kind: Role
+  path: argo-role.yaml
+
 patchesStrategicMerge:
-{% for patch in patches.files %}
-  - {{ patch.path | basename }}
-{% endfor %}
-{% endif %}
+- configmap.yaml
 
 bases:
   - {{ k8s_base | relpath( k8s_patch ) }}

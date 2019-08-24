@@ -1,0 +1,17 @@
+# Patch for workflowtemplates.argoproj.io
+# Solves:
+# E0824 11:59:34.584193 1 reflector.go:126] github.com/argoproj/argo/workflow/controller/controller.go:159:
+# Failed to list *v1alpha1.WorkflowTemplate: workflowtemplates.argoproj.io is forbidden:
+# User "system:serviceaccount:argo:argo" cannot list workflowtemplates.argoproj.io at the cluster scope: no RBAC policy matched
+- op: add
+  path: /rules/-
+  value:
+    apiGroups:
+    - argoproj.io
+    resources:
+    - workflowtemplates
+    - workflowtemplates/finalizers
+    verbs:
+    - get
+    - list
+    - watch
