@@ -14,7 +14,18 @@ Requirements
 
 > Why cluster-admin access is required?
 
-The Argo creates a CRD, this operation requires (unless configured otherwise) cluster-admin priviledges. There are also some steps which manipulate the [SCC](https://docs.openshift.com/container-platform/3.11/admin_guide/manage_scc.html), that also requires cluster-admin permissions.
+The Argo creates a CRD, this operation requires (unless configured otherwise) cluster-admin priviledges.
+
+2) Installed Python `kubernetes` and `openshift` libraries
+
+```bash
+pip3 install kubernetes openshift
+```
+
+> Why?
+
+This ansible role uses the `k8s` ansible plugin which requires the above libraries to be installed.
+
 
 Role Variables
 --------------

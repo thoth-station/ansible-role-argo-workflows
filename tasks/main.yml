@@ -12,18 +12,23 @@
     - kustomize
     - kustomization
 
-- name: "check if namespace exists"
-  command: "kubectl get ns {{ namespace }}"
-  register: namespace_exists
-  ignore_errors: yes
-
-- name: "create a namespace"
-  command: "kubectl create namespace {{ namespace }}"
-  when: namespace_exists is failed
+- name: "create a namespace if not exists"
+  tags:
+    - deploy
+    - namespace
+  k8s:
+    state: present
+    kind: Namespace
+    name: "{{ namespace }}"
 
 # TODO: find a way around this
 # - name: "grant the service account required SCC"
 #   command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
 
 - name: "deploy"
-  command: "kubectl -n {{ namespace }} apply -f {{ deployment }}"
+  tags:
+    - deploy
+  k8s:
+    state: present
+    src: "{{ deployment }}"
+    namespace: "{{ namespace }}"
