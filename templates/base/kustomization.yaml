@@ -1,9 +1,5 @@
 kind: Kustomization
 
-commonLabels:
-  app: argo
-  component: argo-workflows
-
 resources:
   - secrets.yaml
   - namespace-install.yaml
