@@ -33,13 +33,13 @@
 
 - name: "process artifact repository secrets template"
   template:
-    src: ../templates/secrets/secrets.yaml
+    src: "{{ role_path }}/templates/secrets/secrets.yaml"
     dest: "{{ k8s_base }}"
   when: ARTIFACT_REPOSITORY == "s3"
 
 - name: "find all base templates"
   find:
-    paths: ../templates/base
+    paths: "{{ role_path }}/templates/base/"
     file_type: file
     patterns:
       - '*.yaml'
@@ -57,7 +57,7 @@
 
 - name: "find all patch templates"
   find:
-    paths: ../templates/patch
+    paths: "{{ role_path }}/templates/patch/"
     file_type: file
     patterns:
       - '*.yaml'
@@ -75,7 +75,7 @@
 
 - name: "find all overlay templates"
   find:
-    paths: "../templates/overlays/{{ overlay }}"
+    paths: "{{ role_path }}/templates/overlays/{{ overlay }}/"
     file_type: file
     patterns:
       - '*.yaml'
@@ -103,6 +103,12 @@
     recurse: true
   register: patches
 
+- name: "verify that patches were found successfully"
+  assert:
+    that:
+    - patches.matched != 0
+    fail_msg: "No patches have been found."
+
 - name: "find all resources"
   find:
     paths: "{{ k8s_base }}"
@@ -112,6 +118,12 @@
       - '*.yml'
     recurse: true
   register: resources
+
+- name: "verify that resources were found successfully"
+  assert:
+    that:
+    - resources.matched != 0
+    fail_msg: "No resources have been found."
 
 - name: "find all overlays"
   find:
@@ -123,10 +135,15 @@
     recurse: true
   register: overlays
 
+- name: "verify that overlays were found successfully"
+  assert:
+    that:
+    - overlays.matched != 0
+    fail_msg: "No overlays have been found."
 
 - name: "find all kustomization templates"
   find:
-    paths: ../templates
+    paths: "{{ role_path }}/templates/"
     file_type: file
     patterns:
       - 'kustomization.yaml'
@@ -134,6 +151,12 @@
       - 'kustomization'
     recurse: true
   register: kustomization_templates
+
+- name: "verify that kustomization templates were found successfully"
+  assert:
+    that:
+    - kustomization_templates.matched != 0
+    fail_msg: "No kustomization templates have been found."
 
 - name: "process kustomization templates"
   template:
