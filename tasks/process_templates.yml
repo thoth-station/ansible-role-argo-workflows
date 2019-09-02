@@ -161,5 +161,5 @@
 - name: "process kustomization templates"
   template:
     src: "{{ item.path }}"
-    dest: "{{ k8s_root }}/{{ item.path | relpath( '../templates' ) }}"
+    dest: "{{ k8s_root }}/{{ item.path | relpath( role_path + '/templates/' ) }}"
   with_items: "{{ kustomization_templates.files }}"
