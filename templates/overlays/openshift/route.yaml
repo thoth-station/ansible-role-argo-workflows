@@ -5,6 +5,8 @@ metadata:
     kubernetes.io/tls-acme: "true"
   name: argo-ui-route
   namespace: "{{ namespace }}"
+  labels:
+    app: argo-ui
 spec:
   port:
     targetPort: 8001

@@ -3,6 +3,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: workflow-controller-configmap
+  labels:
+    app: workflow-controller
 data:
   config: |
     namespace: "{{ namespace }}"
