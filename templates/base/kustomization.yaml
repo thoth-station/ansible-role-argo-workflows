@@ -5,6 +5,5 @@ commonLabels:
   component: argo-workflows
 
 resources:
-{% for resource in resources.files %}
-  - {{ resource.path | basename }}
-{% endfor %}
+  - secrets.yaml
+  - namespace-install.yaml
