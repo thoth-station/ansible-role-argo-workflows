@@ -1,5 +1,8 @@
 kind: Kustomization
 
+commonLabels:
+  ansible/overlay: openshift
+
 resources:
   - route.yaml
 

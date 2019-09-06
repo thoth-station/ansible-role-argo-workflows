@@ -1,5 +1,8 @@
 kind: Kustomization
 
+commonLabels:
+  ansible/role: argo-workflows
+
 resources:
   - secrets.yaml
   - namespace-install.yaml
