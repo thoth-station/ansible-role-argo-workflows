@@ -54,6 +54,10 @@ defaults:
 
 ```yaml
 extra:
+  # Argo reference to use
+  # Can be a branch, tag or a specific commit (defaults to the latest release)
+  - ref 
+
   # If s3 artifact repository is selected, a host (endpoint) and credentials are  required
   - AWS_S3_HOST
   - AWS_S3_BUCKET_NAME
@@ -77,6 +81,7 @@ Example Playbook
       - argo
       - argo-workflows
     namespace: argo
+    ref: v2.4.0
 ```
 
 The role provides an option to add custom overlays via [Kustomize](https://kustomize.io/), currently there is an existing overlay for OpenShift environment. Use as such:

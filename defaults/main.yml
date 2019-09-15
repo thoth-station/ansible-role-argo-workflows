@@ -1,6 +1,7 @@
 ---
 # defaults file for argo-workflows
 namespace: argo
+
 overlay: ""
 
 ARTIFACT_REPOSITORY: ""

@@ -1,7 +1,18 @@
 ---
 # tasks file for template processing
+- name: "getting latest argo release"
+  shell: curl --silent "https://api.github.com/repos/argoproj/argo/releases/latest" | jq -r .tag_name
+  args:
+    warn: false
+  register: command_output
+  when: ref is not defined
+
+- name: "setting fact for latest argo release"
+  set_fact: latest="{{ command_output.stdout }}"
+  when: ref is not defined
+
 - name: "setting fact for argo url"
-  set_fact: argo_url="https://raw.githubusercontent.com/argoproj/argo/master/manifests/namespace-install.yaml"
+  set_fact: argo_url="https://raw.githubusercontent.com/argoproj/argo/{{ ref|default(latest) }}/manifests/namespace-install.yaml"
 
 # root directory for k8s files
 - name: "setting fact for k8s template directory"
