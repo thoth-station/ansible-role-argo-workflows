@@ -1,0 +1,5 @@
+$patch: delete
+
+kind: CustomResourceDefinition
+metadata:
+  name: workflowtemplates.argoproj.io

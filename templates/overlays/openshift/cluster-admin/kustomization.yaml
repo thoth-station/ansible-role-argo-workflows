@@ -1,11 +1,12 @@
 kind: Kustomization
 
 commonLabels:
+  ansible/as: cluster-admin
   ansible/overlay: openshift
 
 resources:
-  - route.yaml
+  - ../route.yaml
 
 bases:
   # patch should always be applied
-  - ../{{ k8s_patch | relpath( k8s_overlays ) }}
+  - ../../{{ k8s_patch | relpath( k8s_overlays ) }}

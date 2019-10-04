@@ -26,16 +26,10 @@
     k8s_overlays: "{{ k8s_root }}/overlays"
 
 - name: "make sure directories for kubernetes templates exist"
-  file:
-    path: "{{ item }}"
-    state: directory
-    recurse: true
-  with_items:
-    - "{{ k8s_root }}"
-    - "{{ k8s_base }}"
-    - "{{ k8s_patch }}"
-    - "{{ k8s_overlays }}"
-    - "{{ k8s_overlays }}/{{ overlay }}"
+  shell: |
+    pushd {{ role_path }}/templates/
+    find . -type d -exec mkdir -p -- {{ k8s_root }}/{} \;
+    popd
 
 - name: "get argo"
   get_url:
@@ -100,7 +94,7 @@
 - name: "process overlay templates"
   template:
     src: "{{ item.path }}"
-    dest: "{{ k8s_overlays }}/{{ overlay }}"
+    dest: "{{ k8s_overlays }}/{{ item.path | relpath( role_path + '/templates/overlays/' ) }}"
   with_items: "{{ overlay_templates.files }}"
   when: overlay | length
 

@@ -21,10 +21,6 @@
     kind: Namespace
     name: "{{ namespace }}"
 
-# TODO: find a way around this
-# - name: "grant the service account required SCC"
-#   command: "oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:{{ namespace }}:default"
-
 - name: "deploy"
   tags:
     - deploy
