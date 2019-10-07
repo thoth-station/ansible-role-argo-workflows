@@ -1,10 +1,7 @@
 kind: Kustomization
 
-patches:
-- target:
-    name: argo-role
-    kind: Role
-  path: argo-role.yaml
+resources:
+- argo-observer-role.yaml
 
 patchesStrategicMerge:
 - configmap.yaml
