@@ -35,12 +35,14 @@ defaults:
   # Namespace into which Argo should be provisioned
   namespace: argo
 
+  # This assumes certain privileges and modifies the resources accordingly
+  # For example, it is assumed that a developer will not be able to create
+  # a CRD. These resources are therefore expected to already exist in the cluster.
+  as: cluster-admin  # options: developer, cluster-admin
+
   # Custom overlay to be applied via kustomize to the base argo installation.
   # Overlays must be present in the [/templates/overlays/](/templates/overlays/) folder and must contain a valid `kustomization.yaml`
-  #
-  # options:
-  # - "openshift"
-  overlay: ""
+  overlay: ""       # options: openshift
 
   # Kind of artifact repository to be configured (if not empty)
   # options:
