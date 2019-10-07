@@ -8,5 +8,5 @@
   when: not overlay | length
 
 - name: "kustomize with overlay: {{ overlay }}"
-  command: "kustomize build {{ k8s_root }}/overlays/{{ overlay }} -o {{ k8s_root }}/deploy.yaml"
+  command: "kustomize build {{ k8s_root }}/overlays/{{ overlay }}/{{ as }} -o {{ k8s_root }}/deploy.yaml"
   when: overlay | length

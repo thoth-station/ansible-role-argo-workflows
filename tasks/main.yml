@@ -1,6 +1,8 @@
 ---
 # tasks file for argo-workflows
 - name: "setting fact for path to main deployment"
+  tags:
+    - deploy
   set_fact: deployment="{{ role_path }}/files/deploy.yaml"
 
 - import_tasks: process_templates.yml
@@ -20,11 +22,9 @@
     state: present
     kind: Namespace
     name: "{{ namespace }}"
+  when: as == "cluster-admin"
 
 - name: "deploy"
   tags:
     - deploy
-  k8s:
-    state: present
-    src: "{{ deployment }}"
-    namespace: "{{ namespace }}"
+  command: kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as={{ as }}

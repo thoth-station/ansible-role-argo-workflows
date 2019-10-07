@@ -1,5 +1,0 @@
-$patch: delete
-
-kind: CustomResourceDefinition
-metadata:
-  name: workflows.argoproj.io

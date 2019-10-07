@@ -1,0 +1,11 @@
+kind: Kustomization
+
+commonLabels:
+  ansible/overlay: openshift
+
+resources:
+  - route.yaml
+
+bases:
+  # patch should always be applied
+  - ../../{{ k8s_patch | relpath( k8s_overlays ) }}
