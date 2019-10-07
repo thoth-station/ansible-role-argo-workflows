@@ -10,9 +10,6 @@ patches:
     kind: ConfigMap
 - path: labels.yaml
   target:
-    kind: Role*
-- path: labels.yaml
-  target:
     kind: Route
 - path: labels.yaml
   target:
