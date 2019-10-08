@@ -1,4 +1,4 @@
-# Add rules to manager Job resources
+# Add rules to manage Job resources
 - op: add
   path: /rules/-
   value:
@@ -14,3 +14,16 @@
     - update
     - patch
     - delete
+
+# Add rules to list logs
+- op: add
+  path: /rules/-
+  value:
+    apiGroups:
+    - ""
+    resources:
+    - pods/log
+    verbs:
+    - get
+    - list
+    - watch
