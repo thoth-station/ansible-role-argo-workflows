@@ -4,5 +4,10 @@ commonLabels:
   ansible/role: argo-workflows
 
 resources:
-  - secrets.yaml
+  # Argo
   - namespace-install.yaml
+  # Custom manifests
+  - secrets.yaml
+  - view.yaml
+  - workflow-creator.yaml
+  - workflow-observer.yaml

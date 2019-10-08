@@ -1,8 +1,5 @@
 kind: Kustomization
 
-resources:
-- argo-observer-role.yaml
-
 patchesStrategicMerge:
 - configmap.yaml
 

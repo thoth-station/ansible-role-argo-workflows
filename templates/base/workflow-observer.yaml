@@ -1,9 +1,14 @@
 # This is a convenient role to be able to use the Argo CLI
 # to list workflows as any authenticated user (i.e., developer)
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: workflow-observer
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: argo-observer-role
+  name: workflow-observer
 rules:
 - apiGroups:
   - argoproj.io
@@ -27,11 +32,13 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: argo-observer-binding
+  name: workflow-observer
 roleRef:
   kind: Role
-  name: argo-observer-role
+  name: workflow-observer
   apiGroup: rbac.authorization.k8s.io
 subjects:
   - kind: Group
     name: system:authenticated
+  - kind: ServiceAccount
+    name: workflow-observer
