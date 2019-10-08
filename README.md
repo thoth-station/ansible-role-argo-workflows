@@ -49,6 +49,40 @@ defaults:
   # - "s3"
   ARTIFACT_REPOSITORY: ""
 
+  # Argo container runtime executor
+  #
+  #     Docker
+
+  # + supports all workflow examples
+  # + most reliable and well tested
+  # + very scalable. communicates to docker daemon for heavy lifting
+  # - least secure. requires docker.sock of host to be mounted (often rejected by OPA)
+  # 
+  #     Kubelet
+  # 
+  # + secure. cannot escape privileges of pod's service account
+  # + medium scalability - log retrieval and container polling is done against kubelet
+  # - additional kubelet configuration may be required
+  # - can only save params/artifacts in volumes (e.g. emptyDir), and not the base image layer (e.g. /tmp)
+  # 
+  #     K8s API
+  # 
+  # + secure. cannot escape privileges of pod's service account
+  # + no extra configuration
+  # - least scalable - log retrieval and container polling is done against k8s API server
+  # - can only save params/artifacts in volumes (e.g. emptyDir), and not the base image layer (e.g. /tmp)
+  # 
+  #     PNS
+  # 
+  # + secure. cannot escape privileges of service account
+  # + artifact collection can be collected from base image layer
+  # + scalable - process polling is done over procfs and not kubelet/k8s API
+  # - processes will no longer run with pid 1
+  # - artifact collection from base image may fail for containers which complete too fast
+  # - cannot capture artifact directories from base image layer which has a volume mounted under it
+  # - immature
+  executor: docker   # options: docker, kubelet, k8sapi, pns
+
   # s3 artifact repository configuration
   AWS_S3_BUCKET_PREFIX: ""  # s3 bucket prefix
   AWS_S3_ARTIFACT_PATH: ""  # path to the artifact directory in the prefix
