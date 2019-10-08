@@ -40,7 +40,7 @@
   template:
     src: "{{ role_path }}/templates/secrets/secrets.yaml"
     dest: "{{ k8s_base }}"
-  when: ARTIFACT_REPOSITORY == "s3"
+  when: artifactRepository == "s3"
 
 - name: "find all base templates"
   find:

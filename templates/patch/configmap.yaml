@@ -7,10 +7,18 @@ metadata:
     app: workflow-controller
 data:
   config: |
+    # Specifies the container runtime interface to use (default: docker)
     containerRuntimeExecutor: "{{ executor }}"
+
+    # namespace limits the controller's watch/queries to a specific namespace. This allows the
+    # controller to run with namespace scope (Role), instead of cluster scope (ClusterRole).
     namespace: "{{ namespace }}"
-{% if ARTIFACT_REPOSITORY == "s3" %}
+
+{% if artifactRepository == "s3" %}
     artifactRepository:
+      # archiveLogs will archive the main container logs as an artifact
+      archiveLogs: {{ archiveLogs }}
+
       s3:
         bucket: "{{ AWS_S3_BUCKET_NAME }}"
 {% if AWS_S3_BUCKET_PREFIX != "" %}

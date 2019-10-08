@@ -44,11 +44,6 @@ defaults:
   # Overlays must be present in the [/templates/overlays/](/templates/overlays/) folder and must contain a valid `kustomization.yaml`
   overlay: ""       # options: openshift
 
-  # Kind of artifact repository to be configured (if not empty)
-  # options:
-  # - "s3"
-  ARTIFACT_REPOSITORY: ""
-
   # Argo container runtime executor
   #
   #     Docker
@@ -83,7 +78,21 @@ defaults:
   # - immature
   executor: docker   # options: docker, kubelet, k8sapi, pns
 
+
+  # Artifacts
+  # ---------
+
+  # Kind of artifact repository to be configured (if not empty)
+  # options:
+  # - "s3"
+  artifactRepository: ""
+
+  # archiveLogs will archive the main container logs as an artifact
+  # only applicable if artifactRepository != ""
+  archiveLogs: {{ archiveLogs }}
+
   # s3 artifact repository configuration
+  # only applicable if artifactRepository == "s3"
   AWS_S3_BUCKET_PREFIX: ""  # s3 bucket prefix
   AWS_S3_ARTIFACT_PATH: ""  # path to the artifact directory in the prefix
 ```
