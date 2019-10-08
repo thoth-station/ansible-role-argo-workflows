@@ -7,6 +7,7 @@ metadata:
     app: workflow-controller
 data:
   config: |
+    containerRuntimeExecutor: kubelet
     namespace: "{{ namespace }}"
 {% if ARTIFACT_REPOSITORY == "s3" %}
     artifactRepository:
