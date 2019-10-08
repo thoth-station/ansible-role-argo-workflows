@@ -1,5 +1,11 @@
 kind: Kustomization
 
+patches:
+- path: argo-role.yaml
+  target:
+    kind: Role
+    name: argo-role
+
 patchesStrategicMerge:
 - configmap.yaml
 

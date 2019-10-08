@@ -1,0 +1,16 @@
+# Add rules to manager Job resources
+- op: add
+  path: /rules/-
+  value:
+    apiGroups:
+    - "batch"
+    resources:
+    - jobs
+    verbs:
+    - create
+    - get
+    - list
+    - watch
+    - update
+    - patch
+    - delete
