@@ -4,6 +4,7 @@ commonLabels:
   ansible/overlay: openshift
 
 resources:
+  - image-builder.yaml
   - route.yaml
 
 bases:
