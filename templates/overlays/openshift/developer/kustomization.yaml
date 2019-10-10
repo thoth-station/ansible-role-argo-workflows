@@ -2,6 +2,13 @@ kind: Kustomization
 
 patches:
 - target:
+    kind: ClusterRole
+  patch: |-
+    - op: add
+      path: /metadata/labels/as
+      value:
+        cluster-admin
+- target:
     kind: CustomResourceDefinition
   patch: |-
     - op: add

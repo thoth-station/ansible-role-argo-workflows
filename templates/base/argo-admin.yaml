@@ -1,11 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
+  annotations:
+    openshift.io/description: A user that can create and edit Argo Workflows and WorkflowTemplates
+    rbac.authorization.kubernetes.io/autoupdate: "true"
   labels:
-    ansible/role: argo-workflows
-    as: cluster-admin
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
   name: argo-admin
-  namespace: {{ namespace }}
 rules:
 - apiGroups:
   - argoproj.io
@@ -33,20 +34,3 @@ rules:
   - update
   - patch
   - delete
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    ansible/role: argo-workflows
-    as: cluster-admin
-  name: argo-admin
-  namespace: {{ namespace }}
-roleRef:
-  kind: Role
-  name: argo-admin
-  apiGroup: rbac.authorization.k8s.io
-subjects:
-  - kind: Group
-    name: system:admin
-    namespace: {{ namespace }}
