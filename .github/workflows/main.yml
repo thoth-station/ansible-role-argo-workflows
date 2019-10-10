@@ -19,3 +19,77 @@ jobs:
         # or valid Ansible directories according to the Ansible role
         # directory structure.
         targets: '.'
+
+    - name: Prepare dependencies
+      run: |
+        pip install --user kubernetes openshift
+
+    - name: Check that tasks exist [templates]
+      run: |
+        tasks=$(\
+          ansible-playbook tests/test.yml --tags templates --list-tasks |\
+          grep templates  |\
+          tee /dev/stderr |\
+          wc -l \
+        )
+        if [ $tasks -lt 20 ]; then
+          >&2 echo 'Number of tasks is expected to be >= 20'
+          exit 1
+        fi
+        
+    - name: Check that tasks exist [kustomize]
+      run: |
+        tasks=$(\
+          ansible-playbook tests/test.yml --tags kustomize --list-tasks |\
+          grep kustomize  |\
+          tee /dev/stderr |\
+          wc -l \
+        )
+        if [ $tasks -lt 3 ]; then
+          >&2 echo 'Number of tasks is expected to be >= 3'
+          exit 1
+        fi
+
+    - name: Check that tasks exist [deploy]
+      run: |
+        tasks=$(\
+          ansible-playbook tests/test.yml --tags deploy --list-tasks |\
+          grep deploy  |\
+          tee /dev/stderr |\
+          wc -l \
+        )
+        if [ $tasks -lt 3 ]; then
+          >&2 echo 'Number of tasks is expected to be >= 3'
+          exit 1
+        fi
+
+    - name: Check resources
+      run: |
+        set -euo pipefail
+
+        ansible-playbook tests/test.yml --tags templates,kustomize
+
+        required=(
+          argo 
+          argo-admin 
+          argo-binding 
+          argo-role 
+          argo-ui 
+          argo-ui-binding 
+          argo-ui-role 
+          workflow-controller 
+          workflow-controller-configmap 
+          workflows.argoproj.io 
+          workflowtemplates.argoproj.io 
+        )
+
+        resources=$(cat files/deploy.yaml | yq -r '.metadata.name' | sort -u)
+        for r in ${required[@]}; do
+          >&2 echo "Checking resource '$r'"
+
+          ret=$(case "${resources[@]}" in  *"$r"*) echo 0 ;; esac)
+          if [ -z $ret ]; then
+            >&2 echo "ERROR: Missing required resource '$r'"
+            exit 1
+          fi
+        done
