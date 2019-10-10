@@ -1,7 +1,9 @@
 ---
 # tasks file for template processing
 - name: "getting latest argo release"
-  shell: curl --silent "https://api.github.com/repos/argoproj/argo/releases/latest" | jq -r .tag_name
+  shell: |
+    set -o pipefail
+    curl --silent "https://api.github.com/repos/argoproj/argo/releases/latest" | jq -r .tag_name
   args:
     warn: false
   register: command_output
@@ -25,11 +27,12 @@
     k8s_patch: "{{ k8s_root }}/patch"
     k8s_overlays: "{{ k8s_root }}/overlays"
 
-- name: "make sure directories for kubernetes templates exist"
+- name: "make sure directories for kubernetes processed templates exist"
   shell: |
     pushd {{ role_path }}/templates/
     find . -type d -exec mkdir -p -- {{ k8s_root }}/{} \;
     popd
+  changed_when: true
 
 - name: "get argo"
   get_url:

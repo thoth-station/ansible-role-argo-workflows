@@ -29,11 +29,15 @@
     - deploy
     - cluster-admin
   command: kubectl apply --namespace {{ namespace }} -f {{ deployment }}
+  register: result
   when: as == "cluster-admin"
+  changed_when: '"configured" in result.stdout'
 
 - name: "deploy as developer"
   tags:
     - deploy
     - developer
   command: kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as!=cluster-admin
+  register: result
   when: as == "developer"
+  changed_when: '"configured" in result.stdout'
