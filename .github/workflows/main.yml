@@ -20,8 +20,12 @@ jobs:
         # directory structure.
         targets: '.'
 
-    - name: Prepare dependencies
+    - name: Prepare
       run: |
+        pushd ${GITHUB_WORKSPACE}/tests
+        ln -sf ../ argo-workflows
+        popd
+
         pip install --user kubernetes openshift
 
     - name: Check that tasks exist [templates]
