@@ -1,25 +1,13 @@
 kind: Kustomization
 
-# Label resources which can be deployed as developer
 patches:
-- path: labels.yaml
-  target:
-    kind: Deployment
-- path: labels.yaml
-  target:
-    kind: ConfigMap
-- path: labels.yaml
-  target:
-    kind: Route
-- path: labels.yaml
-  target:
-    kind: Secret
-- path: labels.yaml
-  target:
-    kind: Service
-- path: labels.yaml
-  target:
-    kind: ServiceAccount
+- target:
+    kind: CustomResourceDefinition
+  patch: |-
+    - op: add
+      path: /metadata/labels/as
+      value:
+        cluster-admin
 
 bases:
   - ../base

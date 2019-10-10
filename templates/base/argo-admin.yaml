@@ -1,14 +1,11 @@
-# This is a convenient role to be able to use the Argo CLI
-# to list workflows as any authenticated user (i.e., developer)
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: workflow-observer
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: workflow-observer
+  labels:
+    ansible/role: argo-workflows
+    as: cluster-admin
+  name: argo-admin
+  namespace: {{ namespace }}
 rules:
 - apiGroups:
   - argoproj.io
@@ -16,29 +13,40 @@ rules:
   - workflows
   - workflows/finalizers
   verbs:
+  - create
   - get
   - list
   - watch
+  - update
+  - patch
+  - delete
 - apiGroups:
   - argoproj.io
   resources:
   - workflowtemplates
   - workflowtemplates/finalizers
   verbs:
+  - create
   - get
   - list
   - watch
+  - update
+  - patch
+  - delete
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: workflow-observer
+  labels:
+    ansible/role: argo-workflows
+    as: cluster-admin
+  name: argo-admin
+  namespace: {{ namespace }}
 roleRef:
   kind: Role
-  name: workflow-observer
+  name: argo-admin
   apiGroup: rbac.authorization.k8s.io
 subjects:
   - kind: Group
-    name: system:authenticated
-  - kind: ServiceAccount
-    name: workflow-observer
+    name: system:admin
+    namespace: {{ namespace }}

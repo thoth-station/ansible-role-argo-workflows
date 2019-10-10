@@ -17,14 +17,23 @@
 - name: "create a namespace if not exists"
   tags:
     - deploy
-    - namespace
+    - cluster-admin
   k8s:
     state: present
     kind: Namespace
     name: "{{ namespace }}"
   when: as == "cluster-admin"
 
-- name: "deploy"
+- name: "deploy as cluster-admin"
   tags:
     - deploy
-  command: kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as={{ as }}
+    - cluster-admin
+  command: kubectl apply --namespace {{ namespace }} -f {{ deployment }}
+  when: as == "cluster-admin"
+
+- name: "deploy as developer"
+  tags:
+    - deploy
+    - developer
+  command: kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as!=cluster-admin
+  when: as == "developer"

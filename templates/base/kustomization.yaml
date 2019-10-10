@@ -6,8 +6,7 @@ commonLabels:
 resources:
   # Argo
   - namespace-install.yaml
+  - argo-admin.yaml
   # Custom manifests
   - secrets.yaml
   - view.yaml
-  - workflow-creator.yaml
-  - workflow-observer.yaml
