@@ -1,4 +1,4 @@
-name: CI
+name: CI  # feel free to pick your own name
 
 on: [push, pull_request]
 
@@ -6,8 +6,16 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
+    # Important: This sets up your GITHUB_WORKSPACE environment variable
     - uses: actions/checkout@v1
-    - name: ansible-lint
-      uses: ansible/ansible-lint-action@v4.1.0
+    - name: Run Ansible Lint
+      # replace "master" with any valid ref
+      uses: cermakm/ansible-lint-action@master
+      with:
+        # [required]
+        # Paths to ansible files (i.e., playbooks, tasks, handlers etc..)
+        # or valid Ansible directories according to the Ansible role
+        # directory structure.
+        targets: '.'
