@@ -8,5 +8,4 @@ resources:
   - namespace-install.yaml
   - argo-admin.yaml
   # Custom manifests
-  - secrets.yaml
   - view.yaml

@@ -5,15 +5,25 @@
 
 - name: "get root directory content"
   shell: |
-    tree {{ k8s_root }}
+    type tree >/dev/null && tree {{ k8s_root }} || find {{ k8s_root }}
   args:
     executable: /bin/bash
   register: result
+  changed_when: false
 
 - name: "display root directory content"
   debug:
     var: result
     verbosity: 1
+
+- name: "add secrets to the base kustomization file"
+  shell: |
+    pushd {{ k8s_root }}/base
+    kustomize edit add resources secrets.yaml
+    popd
+  args:
+    executable: /bin/bash
+  when: artifactRepository == "s3"
 
 - name: "kustomize"
   command: "kustomize build {{ k8s_root }}/patch -o {{ k8s_root }}/deploy.yaml"

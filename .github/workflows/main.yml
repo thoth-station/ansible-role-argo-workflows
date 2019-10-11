@@ -31,6 +31,8 @@ jobs:
 
         pip install --user kubernetes openshift
 
+        sudo apt-get install tree
+
     - name: Check tasks
       run: |
         tasks=$(\
@@ -48,7 +50,7 @@ jobs:
       run: |
         set -euxo pipefail
 
-        pushd {{ GITHUB_WORKSPACE }}
+        pushd ${GITHUB_WORKSPACE}
         ansible-playbook -v tests/test.yml --tags templates,kustomize
 
         required=(
