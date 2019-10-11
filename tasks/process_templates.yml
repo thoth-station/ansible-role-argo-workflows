@@ -2,7 +2,7 @@
 # tasks file for template processing
 - name: "getting latest argo release"
   shell: |
-    set -o pipefail
+    set -eo pipefail
     curl --silent "https://api.github.com/repos/argoproj/argo/releases/latest" | jq -r .tag_name
   args:
     warn: false
