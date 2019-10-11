@@ -72,7 +72,9 @@ jobs:
 
     - name: Check resources
       run: |
-        ansible-playbook tests/test.yml --tags templates,kustomize
+        set -euxo pipefail
+
+        bash -c 'ansible-playbook tests/test.yml --tags templates,kustomize'
 
         required=(
           argo 

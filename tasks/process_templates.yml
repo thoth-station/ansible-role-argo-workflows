@@ -5,6 +5,7 @@
     set -eo pipefail
     curl --silent "https://api.github.com/repos/argoproj/argo/releases/latest" | jq -r .tag_name
   args:
+    executable: /bin/bash  # make sure -o pipefail is available
     warn: false
   register: command_output
   when: ref is not defined
