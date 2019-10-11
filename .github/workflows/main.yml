@@ -48,7 +48,8 @@ jobs:
       run: |
         set -euxo pipefail
 
-        ansible-playbook tests/test.yml --tags templates,kustomize
+        pushd {{ GITHUB_WORKSPACE }}
+        ansible-playbook -v tests/test.yml --tags templates,kustomize
 
         required=(
           argo 
