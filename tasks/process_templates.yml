@@ -144,13 +144,14 @@
       - '*.yaml'
       - '*.yml'
     recurse: true
-  register: overlays
+  when: overlay | length
 
 - name: "verify that overlays were found successfully"
   assert:
     that:
     - overlays.matched != 0
     fail_msg: "No overlays have been found."
+  when: overlay | length
 
 - name: "find all kustomization templates"
   find:
