@@ -72,8 +72,6 @@ jobs:
 
     - name: Check resources
       run: |
-        set -euo pipefail
-
         ansible-playbook tests/test.yml --tags templates,kustomize
 
         required=(
