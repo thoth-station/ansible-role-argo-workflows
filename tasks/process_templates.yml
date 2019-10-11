@@ -34,6 +34,8 @@
     find . -type d -exec mkdir -p -- {{ k8s_root }}/{} \;
     popd
   changed_when: true
+  args:
+    executable: /bin/bash  # make sure the command is executed in bash
 
 - name: "get argo"
   get_url:

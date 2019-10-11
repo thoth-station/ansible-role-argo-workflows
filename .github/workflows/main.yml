@@ -22,7 +22,7 @@ jobs:
 
     - name: Prepare
       run: |
-        # Make sure Ansible executes scripts with bash by default
+        # Make sure Ansible executes scripts in bash by default
         export SHELL=/bin/bash
 
         pushd ${GITHUB_WORKSPACE}/tests
@@ -31,42 +31,16 @@ jobs:
 
         pip install --user kubernetes openshift
 
-    - name: Check that tasks exist [templates]
+    - name: Check tasks
       run: |
         tasks=$(\
-          ansible-playbook tests/test.yml --tags templates --list-tasks |\
-          grep templates  |\
+          ansible-playbook tests/test.yml --list-tasks |\
+          grep argo-workflows  |\
           tee /dev/stderr |\
           wc -l \
         )
-        if [ $tasks -lt 20 ]; then
-          >&2 echo 'Number of tasks is expected to be >= 20'
-          exit 1
-        fi
-        
-    - name: Check that tasks exist [kustomize]
-      run: |
-        tasks=$(\
-          ansible-playbook tests/test.yml --tags kustomize --list-tasks |\
-          grep kustomize  |\
-          tee /dev/stderr |\
-          wc -l \
-        )
-        if [ $tasks -lt 3 ]; then
-          >&2 echo 'Number of tasks is expected to be >= 3'
-          exit 1
-        fi
-
-    - name: Check that tasks exist [deploy]
-      run: |
-        tasks=$(\
-          ansible-playbook tests/test.yml --tags deploy --list-tasks |\
-          grep deploy  |\
-          tee /dev/stderr |\
-          wc -l \
-        )
-        if [ $tasks -lt 3 ]; then
-          >&2 echo 'Number of tasks is expected to be >= 3'
+        if [ $tasks -le 0 ]; then
+          >&2 echo 'Number of tasks is expected to be >= 0'
           exit 1
         fi
 
@@ -74,7 +48,7 @@ jobs:
       run: |
         set -euxo pipefail
 
-        bash -c 'ansible-playbook tests/test.yml --tags templates,kustomize'
+        ansible-playbook tests/test.yml --tags templates,kustomize
 
         required=(
           argo 
