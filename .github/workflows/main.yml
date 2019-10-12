@@ -41,6 +41,12 @@ jobs:
         mv kustomize_kustomize\.v*_${opsys}_amd64 kustomize
         chmod u+x kustomize
 
+        sudo mv kustomize /usr/bin/
+
+        # Versions
+        ansible --version
+        kustomize version
+
     - name: Check tasks
       run: |
         tasks=$(\
