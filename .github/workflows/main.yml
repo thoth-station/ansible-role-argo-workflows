@@ -10,6 +10,9 @@ jobs:
     steps:
     # Important: This sets up your GITHUB_WORKSPACE environment variable
     - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
     - name: Run Ansible Lint
       # replace "master" with any valid ref
       uses: cermakm/ansible-lint-action@master
@@ -22,6 +25,8 @@ jobs:
 
     - name: Prepare
       run: |
+        # Configure and Install additional depenendencies
+
         # Make sure Ansible executes scripts in bash by default
         export SHELL=/bin/bash
 
