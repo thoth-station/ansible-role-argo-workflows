@@ -29,23 +29,25 @@ jobs:
         ln -sf ../ argo-workflows
         popd
 
+        pip install --user yq
+        pip install --user kubernetes openshift
+
         sudo apt-get install tree
 
         # Kustomize
-        opsys=linux
         curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
           grep browser_download |\
           grep $opsys |\
           cut -d '"' -f 4 |\
           xargs curl -O -L
-        mv kustomize_kustomize\.v*_${opsys}_amd64 kustomize
+        mv kustomize_kustomize\.v*_linux_amd64 kustomize
         chmod u+x kustomize
 
         sudo mv kustomize /usr/bin/
 
         # Versions
-        ansible --version
-        kustomize version
+        >&2 echo -E "Ansible   version:\n $(ansible --version)"
+        >&2 echo -E "Kustomize version:\n $(kustomize version)"
 
     - name: Check tasks
       run: |
