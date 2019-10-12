@@ -26,6 +26,7 @@ jobs:
     - name: Prepare
       run: |
         # Configure and Install additional depenendencies
+        set -x
 
         # Make sure Ansible executes scripts in bash by default
         export SHELL=/bin/bash
@@ -42,7 +43,7 @@ jobs:
         # Kustomize
         curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
           grep browser_download |\
-          grep $opsys |\
+          grep linux |\
           cut -d '"' -f 4 |\
           xargs curl -O -L
         mv kustomize_kustomize\.v*_linux_amd64 kustomize
