@@ -29,9 +29,17 @@ jobs:
         ln -sf ../ argo-workflows
         popd
 
-        pip install --user kubernetes openshift
-
         sudo apt-get install tree
+
+        # Kustomize
+        opsys=linux
+        curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+          grep browser_download |\
+          grep $opsys |\
+          cut -d '"' -f 4 |\
+          xargs curl -O -L
+        mv kustomize_kustomize\.v*_${opsys}_amd64 kustomize
+        chmod u+x kustomize
 
     - name: Check tasks
       run: |
@@ -50,8 +58,7 @@ jobs:
       run: |
         set -euxo pipefail
 
-        pushd ${GITHUB_WORKSPACE}
-        ansible-playbook -v tests/test.yml --tags templates,kustomize
+        ansible-playbook -vvv tests/test.yml --tags templates,kustomize
 
         required=(
           argo 
