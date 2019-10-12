@@ -5,6 +5,7 @@
 
 - name: "get root directory content"
   shell: |
+    set -euxo pipefail
     type tree >/dev/null && tree {{ k8s_root }} || find {{ k8s_root }}
   args:
     executable: /bin/bash
@@ -17,18 +18,19 @@
     verbosity: 1
 
 - name: "add secrets to the base kustomization file"
-  shell: |
-    pushd {{ k8s_root }}/base
-    kustomize edit add resources secrets.yaml
-    popd
+  command: "kustomize edit add resources secrets.yaml"
   args:
-    executable: /bin/bash
+    chdir: "{{ k8s_root }}"
   when: artifactRepository == "s3"
 
 - name: "kustomize"
-  command: "kustomize build {{ k8s_root }}/patch -o {{ k8s_root }}/deploy.yaml"
+  command: "kustomize build patch -o deploy.yaml"
+  args:
+    chdir: "{{ k8s_root }}"
   when: not overlay | length
 
 - name: "kustomize with overlay: {{ overlay }}"
-  command: "kustomize build {{ k8s_root }}/overlays/{{ overlay }}/{{ as }} -o {{ k8s_root }}/deploy.yaml"
+  command: "kustomize build overlays/{{ overlay }}/{{ as }} -o deploy.yaml"
+  args:
+    chdir: "{{ k8s_root }}"
   when: overlay | length

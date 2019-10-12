@@ -58,7 +58,7 @@ jobs:
       run: |
         set -euxo pipefail
 
-        ansible-playbook -vvv tests/test.yml --tags templates,kustomize
+        ansible-playbook -v tests/test.yml --tags templates,kustomize
 
         required=(
           argo 
