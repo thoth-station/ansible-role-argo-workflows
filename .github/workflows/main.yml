@@ -35,8 +35,8 @@ jobs:
         ln -sf ../ argo-workflows
         popd
 
-        pip install --user yq
-        pip install --user kubernetes openshift
+        pip install yq
+        pip install kubernetes openshift
 
         sudo apt-get install tree
 
