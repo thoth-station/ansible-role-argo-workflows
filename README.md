@@ -7,6 +7,11 @@ Ansible Role: Argo Workflows
 
 This is an Ansible role to set up [Argo Workflows](https://argoproj.github.io/argo/) in a single  namespace.
 
+About
+-----
+
+Check out the [blog post on Medium](https://medium.com/@marekermk/provisioning-argo-on-openshift-with-ansible-and-kustomize-340a1fda8b50) for a detailed walkthrough.
+
 
 Requirements
 ------------
@@ -17,15 +22,7 @@ Requirements
 
 The Argo creates a CRD, this operation requires (unless configured otherwise) cluster-admin priviledges.
 
-2) Installed Python `kubernetes` and `openshift` libraries
-
-```bash
-pip3 install kubernetes openshift
-```
-
-> Why?
-
-This ansible role uses the `k8s` ansible plugin which requires the above libraries to be installed.
+2) Installed `kubectl` (see https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
 
 Role Variables
