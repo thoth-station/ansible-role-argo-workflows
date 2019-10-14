@@ -24,6 +24,12 @@ The Argo creates a CRD, this operation requires (unless configured otherwise) cl
 
 2) Installed `kubectl` (see https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
+Install the role from Ansible Galaxy
+------------------------------------
+
+```
+ansible-galaxy install cermakm.argo_workflows
+```
 
 Role Variables
 --------------
@@ -119,7 +125,7 @@ Example Playbook
   connection: local
 
   roles:
-  - role: cermakm.argo-workflows
+  - role: cermakm.argo_workflows
     tags:
       - argo
       - argo-workflows
@@ -137,7 +143,7 @@ The role provides an option to add custom overlays via [Kustomize](https://kusto
   connection: local
 
   roles:
-  - role: cermakm.argo-workflows
+  - role: cermakm.argo_workflows
     tags:
       - argo
       - argo-workflows
