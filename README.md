@@ -22,7 +22,13 @@ Requirements
 
 The Argo creates a CRD, this operation requires (unless configured otherwise) cluster-admin priviledges.
 
-2) Installed `kubectl` (see https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+2) Installed dependencies for the k8s ansible module
+
+```
+pip install kubernetes openshift
+```
+
+3) Installed `kubectl` (see https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
 Install the role from Ansible Galaxy
 ------------------------------------
