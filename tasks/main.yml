@@ -28,7 +28,8 @@
   tags:
     - deploy
     - cluster-admin
-  command: kubectl apply --namespace {{ namespace }} -f {{ deployment }}
+  command: |
+    kubectl apply --namespace {{ namespace }} -f {{ deployment }} --validate={{ validate }}
   register: result
   when: role == "cluster-admin"
   changed_when: '"configured" in result.stdout'
@@ -37,7 +38,8 @@
   tags:
     - deploy
     - developer
-  command: kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as!=cluster-admin
+  command: |
+    kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as!=cluster-admin --validate={{ validate }}
   register: result
   when: role == "developer"
   changed_when: '"configured" in result.stdout'
