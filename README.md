@@ -88,6 +88,8 @@ defaults:
   # - immature
   executor: docker   # options: docker, kubelet, k8sapi, pns
 
+  # Whether to validate kubernetes templates when submitting via kubectl
+  validate: true
 
   # Artifacts
   # ---------

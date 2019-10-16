@@ -47,6 +47,9 @@ overlay: ""        # options: openshift
 # - immature
 executor: docker   # options: docker, kubelet, k8sapi, pns
 
+# Whether to validate kubernetes templates when submitting via kubectl
+validate: true
+
 # Kind of artifact repository to be configured (if not empty)
 artifactRepository: ""
 
