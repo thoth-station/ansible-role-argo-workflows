@@ -22,7 +22,7 @@
     state: present
     kind: Namespace
     name: "{{ namespace }}"
-  when: as == "cluster-admin"
+  when: role == "cluster-admin"
 
 - name: "deploy as cluster-admin"
   tags:
@@ -30,7 +30,7 @@
     - cluster-admin
   command: kubectl apply --namespace {{ namespace }} -f {{ deployment }}
   register: result
-  when: as == "cluster-admin"
+  when: role == "cluster-admin"
   changed_when: '"configured" in result.stdout'
 
 - name: "deploy as developer"
@@ -39,5 +39,5 @@
     - developer
   command: kubectl apply --namespace {{ namespace }} -f {{ deployment }} -l as!=cluster-admin
   register: result
-  when: as == "developer"
+  when: role == "developer"
   changed_when: '"configured" in result.stdout'

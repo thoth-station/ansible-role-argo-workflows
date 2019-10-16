@@ -30,7 +30,7 @@
   when: not overlay | length
 
 - name: "kustomize with overlay: {{ overlay }}"
-  command: "kustomize build overlays/{{ overlay }}/{{ as }} -o deploy.yaml"
+  command: "kustomize build overlays/{{ overlay }}/{{ role }} -o deploy.yaml"
   args:
     chdir: "{{ k8s_root }}"
   when: overlay | length
