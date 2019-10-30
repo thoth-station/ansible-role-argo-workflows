@@ -1,8 +1,8 @@
 Ansible Role: Argo Workflows
 =============================
 
-[![Node CI](https://github.com/cermakm/ansible-role-argo-workflows/workflows/CI/badge.svg)](https://github.com/cermakm/ansible-role-argo-workflows/actions) &nbsp;
-[![Release](https://img.shields.io/github/v/tag/cermakm/ansible-role-argo-workflows.svg?sort=semver&label=Release)](https://github.com/CermakM/ansible-role-argo-workflows/releases/latest)
+[![Node CI](https://github.com/thoth-station/ansible-role-argo-workflows/workflows/CI/badge.svg)](https://github.com/thoth-station/ansible-role-argo-workflows/actions) &nbsp;
+[![Release](https://img.shields.io/github/v/tag/thoth-station/ansible-role-argo-workflows.svg?sort=semver&label=Release)](https://github.com/thoth-station/ansible-role-argo-workflows/releases/latest)
 
 
 This is an Ansible role to set up [Argo Workflows](https://argoproj.github.io/argo/) in a single  namespace.
