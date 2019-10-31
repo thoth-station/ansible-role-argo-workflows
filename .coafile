@@ -1,0 +1,12 @@
+[all]
+bears = LineCountBear, FilenameBear
+files = **.yaml, **.md
+file_naming_convention = snake
+ignore = **/__pycache__/**, **/__pycache__, __pycache__, __pycache__/**, **/*.pyc, *.pyc, .github/**/*.md, test/**, thoth/storages/data/**, CHANGELOG.md, alembic/**
+max_line_length = 120
+max_lines_per_file = 9000
+
+[zuul.yaml]
+bears = YAMLLintBear
+files = .zuul.yaml
+max_line_length = 180
