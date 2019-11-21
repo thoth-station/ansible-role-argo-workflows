@@ -15,4 +15,4 @@
 
   tasks:
   - import_role:
-      name: argo-workflows 
+      name: argo-workflows
