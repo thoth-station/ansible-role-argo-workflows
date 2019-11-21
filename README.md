@@ -62,23 +62,23 @@ defaults:
   # + most reliable and well tested
   # + very scalable. communicates to docker daemon for heavy lifting
   # - least secure. requires docker.sock of host to be mounted (often rejected by OPA)
-  # 
+  #
   #     Kubelet
-  # 
+  #
   # + secure. cannot escape privileges of pod's service account
   # + medium scalability - log retrieval and container polling is done against kubelet
   # - additional kubelet configuration may be required
   # - can only save params/artifacts in volumes (e.g. emptyDir), and not the base image layer (e.g. /tmp)
-  # 
+  #
   #     K8s API
-  # 
+  #
   # + secure. cannot escape privileges of pod's service account
   # + no extra configuration
   # - least scalable - log retrieval and container polling is done against k8s API server
   # - can only save params/artifacts in volumes (e.g. emptyDir), and not the base image layer (e.g. /tmp)
-  # 
+  #
   #     PNS
-  # 
+  #
   # + secure. cannot escape privileges of service account
   # + artifact collection can be collected from base image layer
   # + scalable - process polling is done over procfs and not kubelet/k8s API
@@ -113,7 +113,11 @@ defaults:
 extra:
   # Argo reference to use
   # Can be a branch, tag or a specific commit (defaults to the latest release)
-  - ref 
+  - ref
+
+  # Allows to overwrite executor and workflow controller images
+  - executor_image
+  - workflow_controller_image
 
   # If s3 artifact repository is selected, a host (endpoint) and credentials are  required
   - AWS_S3_HOST
@@ -161,7 +165,7 @@ The role provides an option to add custom overlays via [Kustomize](https://kusto
     overlay: openshift
 ```
 
-Tested on minishift, [OpenShift 3.11](https://docs.openshift.com/container-platform/3.11/welcome/index.html). 
+Tested on minishift, [OpenShift 3.11](https://docs.openshift.com/container-platform/3.11/welcome/index.html).
 
 <br>
 

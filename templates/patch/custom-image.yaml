@@ -1,0 +1,13 @@
+- op: replace
+  path: /spec/template/spec/containers/0
+  value:
+    args:
+    - --configmap
+    - workflow-controller-configmap
+    - --executor-image
+    - {{ executor_image | default( "argoproj/argoexec:" + ref|default(latest) ) }}
+    command:
+    - workflow-controller
+    image: |-
+      {{ workflow_controller_image | default( "argoproj/workflow-controller:" + ref|default(latest) ) }}
+    name: workflow-controller

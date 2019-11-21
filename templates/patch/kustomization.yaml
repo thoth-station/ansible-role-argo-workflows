@@ -5,6 +5,10 @@ patches:
   target:
     kind: Role
     name: argo-role
+- path: custom-image.yaml
+  target:
+    kind: Deployment
+    name: workflow-controller
 
 patchesStrategicMerge:
 - configmap.yaml
