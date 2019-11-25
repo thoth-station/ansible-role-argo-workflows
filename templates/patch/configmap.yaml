@@ -14,6 +14,18 @@ data:
     # controller to run with namespace scope (Role), instead of cluster scope (ClusterRole).
     namespace: "{{ namespace }}"
 
+    # metricsConfig controls the path and port for prometheus metrics
+    metricsConfig:
+      enabled: {{ metricsEnabled }}
+      path: {{ metricsPath }}
+      port: {{ metricsPort }}
+
+    # telemetryConfig controls the path and port for prometheus telemetry
+    telemetryConfig:
+      enabled: {{ telemetryEnabled }}
+      path: {{ telemetryPath }}
+      port: {{ telemetryPort }}
+
 {% if artifactRepository == "s3" %}
     artifactRepository:
       # archiveLogs will archive the main container logs as an artifact
