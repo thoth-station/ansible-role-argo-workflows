@@ -18,9 +18,9 @@
     verbosity: 1
 
 - name: "add secrets to the base kustomization file"
-  command: "kustomize edit add resources secrets.yaml"
+  command: "kustomize edit add resource secrets.yaml"
   args:
-    chdir: "{{ k8s_root }}"
+    chdir: "{{ k8s_root }}/base"
   when: artifactRepository == "s3"
 
 - name: "kustomize"
