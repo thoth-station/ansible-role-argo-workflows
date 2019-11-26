@@ -91,6 +91,16 @@ defaults:
   # Whether to validate kubernetes templates when submitting via kubectl
   validate: true
 
+  # metricsConfig controls the path and port for prometheus metrics
+  metricsEnabled: true
+  metricsPath: /metrics
+  metricsPort: 8080
+
+  # telemetryConfig controls the path and port for prometheus telemetry
+  telemetryEnabled: true
+  telemetryPath: /telemetry
+  telemetryPort: 8080
+
   # Artifacts
   # ---------
 
