@@ -34,7 +34,7 @@ Install the role from Ansible Galaxy
 ------------------------------------
 
 ```
-ansible-galaxy install cermakm.argo_workflows
+ansible-galaxy install thoth-station.argo_workflows
 ```
 
 Role Variables
@@ -147,7 +147,7 @@ Example Playbook
   connection: local
 
   roles:
-  - role: cermakm.argo_workflows
+  - role: thoth-station.argo_workflows
     tags:
       - argo
       - argo-workflows
@@ -165,7 +165,7 @@ The role provides an option to add custom overlays via [Kustomize](https://kusto
   connection: local
 
   roles:
-  - role: cermakm.argo_workflows
+  - role: thoth-station.argo_workflows
     tags:
       - argo
       - argo-workflows
