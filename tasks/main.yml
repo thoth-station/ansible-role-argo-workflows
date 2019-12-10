@@ -19,16 +19,6 @@
     - kustomize
     - kustomization
 
-- name: "create a namespace if not exists"
-  tags:
-    - deploy
-    - cluster-admin
-  k8s:
-    state: present
-    kind: Namespace
-    name: "{{ namespace }}"
-  when: role == "cluster-admin"
-
 - name: "deploy as cluster-admin"
   tags:
     - deploy
