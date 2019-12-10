@@ -31,10 +31,6 @@ jobs:
         # Make sure Ansible executes scripts in bash by default
         export SHELL=/bin/bash
 
-        pushd ${GITHUB_WORKSPACE}/tests
-        ln -sf ../ argo-workflows
-        popd
-
         pip install yq
         pip install kubernetes openshift
 
