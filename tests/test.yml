@@ -17,6 +17,6 @@
   - include_role:
       name: argo-workflows
     tags:
-    - always
+    - templates
     - kustomize
     - deploy

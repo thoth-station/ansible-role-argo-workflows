@@ -63,7 +63,7 @@ jobs:
       run: |
         tasks=$(\
           ansible-playbook tests/test.yml --list-tasks |\
-          grep argo-workflows  |\
+          grep -E 'deploy|kustomize|templates'  |\
           tee /dev/stderr |\
           wc -l \
         )
