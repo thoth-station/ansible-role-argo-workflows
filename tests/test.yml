@@ -7,12 +7,16 @@
   pre_tasks:
   - name: Create link to the Ansible role
     file:
-      src: ../
+      src: "{{ playbook_dir }}/../"
       dest: argo-workflows
       state: link
     tags:
     - always
 
   tasks:
-  - import_role:
+  - include_role:
       name: argo-workflows
+    tags:
+    - templates
+    - kustomize
+    - deploy
